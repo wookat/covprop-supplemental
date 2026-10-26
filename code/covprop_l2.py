@@ -17,7 +17,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 CODE = os.path.abspath(os.path.join(HERE, "..", "..", "r4_work", "code"))
 sys.path.insert(0, CODE)
-sys.path.insert(0, os.path.join(CODE, "t1_harness"))
+sys.path.insert(0, os.path.join(CODE, "core"))
 
 import covprop_full as CF                                        # noqa: E402
 from covprop_full import (ALPHA, H, K_MC, build_windows, train_base, split_q,

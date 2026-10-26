@@ -26,7 +26,7 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "t1_harness"))
+sys.path.insert(0, os.path.join(HERE, "core"))
 
 import covprop_full as CF                                        # noqa: E402
 from covprop_full import (ALPHA, H, build_windows, train_base, split_q,
