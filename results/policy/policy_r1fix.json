@@ -1,0 +1,95 @@
+{
+ "n_points": 63,
+ "frozen_crosscheck": {
+  "note": "new run uses 5 seeds so aggregate means differ; backtest values are seed-averaged too. Relative deviation of the (5-seed) backtest means vs frozen 3-seed means:",
+  "max_rel_dev_backtest": 0.03086467757175528
+ },
+ "H4_late_5seeds": {
+  "mean_winkler": 2.156652906651745,
+  "oracle_winkler": 2.1509720849428327,
+  "mean_regret_pct": 0.2365746230776429,
+  "median_regret_pct": 0.0,
+  "max_regret_pct": 2.6250313028718772,
+  "agree_rate": 0.746031746031746,
+  "n_points": 63,
+  "wilcoxon_vs_always_recal": {
+   "mean_improvement_pct": 6.6168880362643705,
+   "p": 2.4770276393652366e-07
+  },
+  "wilcoxon_vs_always_covprop_share": {
+   "mean_improvement_pct": 13.065898957917382,
+   "p": 0.0008879379453151352
+  }
+ },
+ "H5_early": {
+  "mean_winkler": 2.169051769192777,
+  "oracle_winkler": 2.1509720849428327,
+  "mean_regret_pct": 2.0883694323655786,
+  "median_regret_pct": 0.0,
+  "max_regret_pct": 25.818180228010068,
+  "agree_rate": 0.5873015873015873,
+  "n_points": 63,
+  "agree_with_late": 0.6984126984126984,
+  "pass": false
+ },
+ "H6_undegraded": {
+  "mean_winkler": 2.0236319333955373,
+  "oracle_winkler": 2.0208159684124403,
+  "mean_regret_pct": 0.10604745763451925,
+  "median_regret_pct": 0.0,
+  "max_regret_pct": 0.7423322034416348,
+  "agree_rate": 0.8571428571428571,
+  "n_points": 7,
+  "picks": {
+   "ETTh1": "recal",
+   "ETTh2": "recal",
+   "ETTm2": "recal",
+   "FR": "recal",
+   "NP": "covprop_mc",
+   "electricity": "covprop_share",
+   "weather": "covprop_share"
+  },
+  "pass": true
+ },
+ "H7_stream_level": {
+  "vs_always_recal": {
+   "per_stream_mean_diff": {
+    "ETTh1": 0.016299187496540926,
+    "ETTh2": 0.01688618603850969,
+    "ETTm2": 0.0,
+    "FR": 0.12717833801044223,
+    "NP": 0.19820954740529453,
+    "electricity": 0.5387893778954613,
+    "weather": 0.17234165565562376
+   },
+   "n_streams_selector_better": 6,
+   "n_streams": 7,
+   "sign_test_p": 0.125,
+   "hier_bootstrap_mean": 0.15293200059494444,
+   "hier_bootstrap_ci95": [
+    0.040123169697391346,
+    0.31516342665064107
+   ]
+  },
+  "vs_always_share": {
+   "per_stream_mean_diff": {
+    "ETTh1": 0.02074703982273523,
+    "ETTh2": 0.17785423702461844,
+    "ETTm2": 2.1044192022994017,
+    "FR": -0.010182776381359214,
+    "NP": -0.023769826235702524,
+    "electricity": 0.0,
+    "weather": -0.00010482986760389995
+   },
+   "n_streams_selector_better": 3,
+   "n_streams": 7,
+   "sign_test_p": 1.0,
+   "hier_bootstrap_mean": 0.32432051887354363,
+   "hier_bootstrap_ci95": [
+    -0.0063255012359013,
+    0.9343378858217577
+   ]
+  },
+  "pass": true
+ }
+}

@@ -43,7 +43,7 @@ def main():
            out["P1"]["agg_win_per_s_loop_only"])
     out["H-S3_loop_only_speedup"] = eff
     out["H-S3_pass_ge_6x"] = bool(eff >= 6.0)
-    with open(os.path.join(HERE, "results_fleet",
+    with open(os.path.join(HERE, "..", "results", "fleet",
                            "fleet_scaling_a1.json"), "w") as f:
         json.dump(out, f, indent=1)
     print(json.dumps({"speedup": eff, "pass": eff >= 6.0}, indent=1))

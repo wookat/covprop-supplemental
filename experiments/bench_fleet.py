@@ -10,11 +10,10 @@ import json, os, sys, time, tracemalloc
 from multiprocessing import get_context
 import numpy as np
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-CODE = os.environ.get("COVPROP_CODE",
-                      os.path.join(HERE, "..", "r4_work", "code"))
-sys.path.insert(0, CODE)
-sys.path.insert(0, os.path.join(CODE, "core"))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "src")
+sys.path.insert(0, SRC)
+sys.path.insert(0, os.path.join(SRC, "core"))
 
 from covprop_full import (ALPHA, H, build_windows, train_base,  # noqa: E402
                           split_q)
@@ -124,7 +123,7 @@ def worker(args):
 
 
 def main():
-    out_dir = os.path.join(HERE, "results_fleet")
+    out_dir = os.path.join(ROOT, "results", "fleet")
     os.makedirs(out_dir, exist_ok=True)
     t0 = time.time()
     print("building 7 base states...", flush=True)

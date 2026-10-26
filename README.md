@@ -3,15 +3,10 @@
 Supplemental artifacts for *"CovProp: Propagating Upstream Forecast Uncertainty of
 Future Covariates into Conformal Prediction Intervals"* (ICDE 2027 submission).
 
-This repository contains the experiment drivers, pre-registered protocols, raw
-result files, and overhead benchmarks referenced in the paper. Datasets are
-public and are fetched in their published formats (see `datasets/`); no
-proprietary data ships here.
-
 ## Requirements
 
-Python 3.9+ with `numpy`, `scipy`, `matplotlib`. CPU-only. No GPU, pandas, or
-deep-learning framework is required — all backbones are the linear /
+Python 3.9+ with `numpy`, `scipy`, `matplotlib`. CPU-only; no pandas, sklearn,
+or deep-learning framework needed — all backbones are the linear /
 per-horizon MLP models disclosed in the paper.
 
 ```bash
@@ -21,78 +16,89 @@ pip install numpy scipy matplotlib
 ## Layout
 
 ```
-code/
-  core/                    Shared library (windowing, calibration, baselines, loaders)
-    baselines.py           ACI, NexCP, Winkler scoring
-    data.py                epftoolbox market loader + split helpers
-    rc_cp.py               MondrianCP (RC-CP baseline)
-    syndeg.py              SynDeg / SynDeg-hetero generators
-  covprop_full.py          Core CovProp machinery (MC propagation, stage-2 wrapper)
-  covprop_r1.py            Round-1 driver: 10 datasets, extra baselines, sig. tests
-  covprop_r2.py            Round-2 driver: upstream forecaster + replay protocol
-  covprop_r3.py            Round-3 driver: share-conditioning (Tables IV–VI, Fig. 6)
-  covprop_r3_dump.py       Round-3 driver with per-window ribbon export
-  covprop_r4.py            Round-4 driver: main real-stream protocol (Tables I–II)
-  covprop_r5.py            Round-5 driver: biased-log + propagation-only ablation
-  covprop_l2.py            Pre-registered hybrid experiment (Sec. VII-C)
-  dump_ribbon.py           Per-window ribbon export, all 7 streams (Sec. VII-D)
-  bench_fleet.py           Fleet-level overhead benchmark (Sec. VIII)
-  bench_fleet_scaling.py   Scaling variant of the above
-  figures/                 Figure-rendering utilities (not needed for results)
-datasets/                  Data fetch instructions (README only; no data ships)
-prereg/
-  PREREGISTRATION.md       Main pre-registered protocol (v2)
-  PREREG_L2.md             Hybrid-experiment criteria frozen before the run
-  PREREG_R1FIX.md          R1 fix protocol
-results/
-  ad_analysis.json         Applicability-domain analysis (Sec. VII-D)
-  results_l2/              l2_<stream>.json + perwin_l2_<stream>.npz (Tables IV–VI)
-  r4_results/              poolsize_<stream>.json (Table VII), run logs, PROVENANCE
-  results_r5/              bias_<stream>.json — biased-log + no-stage-2 variants
-  ribbon/                  ribbon_<stream>.npz — per-window half/mag/rho + intervals
-                           (slim: claim-relevant fields; full set via dump_ribbon.py)
-PROVENANCE.md              Environment and seed record for the reported numbers
+src/                          Shared protocol stack (the common machinery every
+                              experiment imports; cumulative layers, not versions)
+  covprop_full.py             Windowing, conformal machinery, evaluation, Winkler
+  covprop_r1.py               Protocol layer 1: 10 datasets, CQR/NorCP/SPCI impls
+  covprop_r2.py               Protocol layer 2: upstream forecaster, MC propagation
+  covprop_r3.py               Protocol layer 3: share statistic, binned lambda
+  covprop_r3_dump.py          Layer 3 + per-window ribbon export
+  core/                       Low-level library
+    baselines.py              ACI, NexCP, Winkler scoring
+    data.py                   epftoolbox market loader, split helpers
+    rc_cp.py                  MondrianCP (RC-CP baseline)
+    syndeg.py                 SynDeg / SynDeg-hetero generators
+experiments/                  Entry-point drivers — each reproduces one protocol round
+  covprop_r4.py               Round 4: pool-size ablation (Table VII)
+  covprop_r5.py               Round 5: biased-log + propagation-only (Sec. VII-C)
+  covprop_l2.py               Pre-registered hybrid experiment (Sec. VII-C)
+  covprop_v2.py               Degradation sweep driver (Table VIII, Sec. VII-E)
+  backtest_extrap.py          Temporal-extrapolation extension (H5)
+  dump_ribbon.py              Per-window ribbon export, all 7 streams (Sec. VII-D)
+  policy_analysis.py          Selector analysis over the sweep (Table VIII)
+  policy_analysis_streamlevel.py  Stream-level selector check
+  bench_overhead.py           Per-window latency/memory benchmark (Sec. VIII)
+  bench_fleet.py              Fleet-level overhead benchmark (Table IX)
+  bench_fleet_scaling.py      Multiprocessing scaling variant (H-S3)
+datasets/                     Data fetch instructions (README only; no data ships)
+prereg/                       Pre-registered protocols frozen before each run
+  PREREGISTRATION.md  PREREG_L2.md  PREREG_R1FIX.md
+results/                      Raw artifacts, organized by claim
+  ad_analysis.json            Applicability-domain analysis (Sec. VII-D)
+  results_l2/                 l2_<stream>.json + perwin_l2_<stream>.npz (Tables IV–VI)
+  poolsize/                   poolsize_<stream>.json (Table VII)
+  biased_log/                 bias_<stream>.json (Sec. VII-C r5 ablation)
+  policy/                     sweep_*.json + sweep5_*.json + policy_*.json (Table VIII)
+  overhead/                   overhead_<stream>.json (Sec. VIII)
+  ribbon/                     ribbon_<stream>.npz (Sec. VII-D; slim fields)
+  logs/                       full_r4*.log, sweep5.log, bench.log (run logs)
+figures/                      Figure-rendering utilities (not needed for results)
+PROVENANCE.md                 Environment and seed record for the reported numbers
 ```
 
-Naming: `covprop_r<N>.py` are the frozen protocol *rounds* cited in the paper
-text (e.g. `\texttt{covprop\_r5.py}` in Sec. VII-C); `t1_harness` internals are
-under `code/core/`.
+Two naming conventions are deliberate and cited in the paper text:
+`covprop_r<N>.py` are the frozen protocol *rounds* (later rounds import earlier
+protocol layers unchanged — that layering is what kept protocols frozen
+between rounds), and `results_l2/` / `ad_analysis.json` appear verbatim in
+`\texttt{}` in the paper.
 
 ## Run
 
-Each driver is a self-contained script; it locates `code/` and `code/core/`
-via its own path, so run it from anywhere:
+Drivers self-locate `src/` relative to their own file — run from anywhere:
 
 ```bash
-export LTSF_DIR=/path/to/ltsf_csvs     # ETT/weather/electricity
-export EPF_DIR=/path/to/epf_csvs       # NP/PJM/BE/FR/DE markets
+export LTSF_DIR=/path/to/ltsf_csvs     # ETT/weather/electricity (else src/datasets/)
+export EPF_DIR=/path/to/epf_csvs       # NP/PJM/BE/FR/DE markets (else ~/epf/)
 
-python code/covprop_r5.py              # biased-log + no-stage-2 grid, ~9 min (7 streams)
-python code/dump_ribbon.py             # per-window ribbons, ~15 min (7 streams, seed 0)
-python code/covprop_r4.py              # main real-stream protocol (long; see PROVENANCE)
+python experiments/covprop_r5.py                 # ~9 min, 7 streams
+python experiments/dump_ribbon.py                # ~15 min, 7 streams, seed 0
+python experiments/policy_analysis.py            # seconds; reads results/policy/
+python experiments/bench_overhead.py --streams NP --seeds 0
 ```
 
-Results are written next to the driver outputs documented in `PROVENANCE.md`;
-run logs ship under `results/r4_results/` for audit.
+Each driver writes its outputs under `results/<topic>/` alongside the shipped
+files (regeneration is additive; shipped JSONs are byte-identical provenance).
 
 ## Artifact → paper claim map
 
 | Paper item | Produced by |
 |---|---|
-| Table I (SynDeg main results) | `code/covprop_r4.py` |
-| Table II (nine real datasets) | `code/covprop_r4.py` |
-| Fig. 1 (coverage collapse curve) | `code/covprop_r4.py` + `code/figures/redraw_batchB.py` |
-| Figs. 3–4, 6 (conditional coverage, share bins) | `code/covprop_r3.py` + `code/figures/` |
-| Tables IV–VI (share-conditional, Winkler) | `code/covprop_r3.py`; raw files in `results/results_l2/` |
-| Table VII (error-pool subsampling) | `results/r4_results/poolsize_*.json` |
-| Sec. VII-C biased-log + propagation-only floor | `code/covprop_r5.py`; `results/results_r5/bias_*.json` |
-| Sec. VII-D per-window width–\|η\| correlation | `results/ribbon/ribbon_*.npz` (`half`, `mag` fields); `code/dump_ribbon.py` |
-| Table IX + Sec. VIII overhead | `code/bench_fleet.py`, `bench_fleet_scaling.py` |
-| Sec. VII-C negative results | `code/covprop_l2.py`, `results/ad_analysis.json` |
+| Table I (SynDeg main results) | `experiments/covprop_r4.py` |
+| Table II (nine real datasets) | `experiments/covprop_r4.py` |
+| Fig. 1 (coverage collapse curve) | `experiments/covprop_r4.py` + `figures/redraw_batchB.py` |
+| Figs. 3–4, 6 (conditional coverage, share bins) | `src/covprop_r3_dump.py` + `figures/` |
+| Tables IV–VI (share-conditional, Winkler) | `src/covprop_r3.py`; raw files in `results/results_l2/` |
+| Table VII (error-pool subsampling) | `results/poolsize/poolsize_*.json` |
+| Sec. VII-C biased-log + propagation-only floor | `experiments/covprop_r5.py`; `results/biased_log/` |
+| Sec. VII-D per-window width–\|η\| correlation | `results/ribbon/ribbon_*.npz` (`half`, `mag`); `experiments/dump_ribbon.py` |
+| Table VIII + Sec. VII-E backtest selector | `experiments/covprop_v2.py`, `policy_analysis*.py`; `results/policy/` |
+| Sec. VII-E H5 temporal extrapolation | `experiments/backtest_extrap.py`; `results/policy/sweep5_*.json` |
+| Table IX + Sec. VIII overhead | `experiments/bench_overhead.py`, `bench_fleet*.py`; `results/overhead/` |
+| Sec. VII-C negative results | `experiments/covprop_l2.py`, `results/ad_analysis.json` |
 
 ## Pre-specifications
 
-The hypotheses, thresholds, grids, and pass/fail criteria that were frozen
-*before* the corresponding runs are in `prereg/`. In particular,
-`PREREG_L2.md` fixes the two hybrid designs and the ≥5/7 acceptance criteria
-reported as not supported in Sec. VII-C.
+The hypotheses, thresholds, grids, and pass/fail criteria frozen *before* the
+corresponding runs are in `prereg/`. `PREREG_L2.md` fixes the two hybrid
+designs and the ≥5/7 acceptance criteria reported as not supported in Sec.
+VII-C; `PREREGISTRATION.md` carries H1–H7 for the policy experiments.

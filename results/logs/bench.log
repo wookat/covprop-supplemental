@@ -1,0 +1,8 @@
+== NP: recal 0.016 ms/win, cqr 0.017, mc K64 0.244 (15.0x), 1-win 27.4 ms (9s)
+== FR: recal 0.017 ms/win, cqr 0.018, mc K64 0.235 (13.7x), 1-win 27.6 ms (18s)
+== ETTh1: recal 0.018 ms/win, cqr 0.019, mc K64 0.262 (14.7x), 1-win 26.9 ms (27s)
+== weather: recal 0.018 ms/win, cqr 0.017, mc K64 0.250 (14.1x), 1-win 27.1 ms (37s)
+== ETTh2: recal 0.016 ms/win, cqr 0.018, mc K64 0.245 (15.5x), 1-win 28.5 ms (46s)
+== ETTm2: recal 0.016 ms/win, cqr 0.018, mc K64 0.251 (15.9x), 1-win 26.7 ms (55s)
+== electricity: recal 0.016 ms/win, cqr 0.017, mc K64 0.243 (15.3x), 1-win 27.8 ms (68s)
+all done in 68s -> /home/dell/wookat/tsf-2027/t2_covprop/oral_loop/r1_fix/results/

@@ -14,10 +14,10 @@ Outputs: results_l2/   (CPU-only).
 import argparse, json, os, sys, time
 import numpy as np
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-CODE = os.path.abspath(os.path.join(HERE, "..", "..", "r4_work", "code"))
-sys.path.insert(0, CODE)
-sys.path.insert(0, os.path.join(CODE, "core"))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "src")
+sys.path.insert(0, SRC)
+sys.path.insert(0, os.path.join(SRC, "core"))
 
 import covprop_full as CF                                        # noqa: E402
 from covprop_full import (ALPHA, H, K_MC, build_windows, train_base, split_q,
@@ -29,7 +29,7 @@ from covprop_r2 import (upstream_forecast, mc_quantiles_any, preds_any,
 from covprop_r3 import (load_any_r3, share_variable, binned_lambda,
                         ALL_STREAMS)                             # noqa: E402
 
-OUT = os.path.join(HERE, "results_l2")
+OUT = os.path.join(ROOT, "results", "results_l2")
 
 
 def train_cqr_heads(Xh_tr, Xc_tr, Y_tr, ts_tr):

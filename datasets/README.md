@@ -20,7 +20,7 @@ Files: `ETTh1.csv ETTm1.csv ETTh2.csv ETTm2.csv weather.csv electricity.csv`
 ETT: <https://github.com/zhouhaoyi/ETDataset>;
 weather/electricity: <https://github.com/thuml/Autoformer>.
 
-Load path: `$LTSF_DIR/<name>.csv`, defaulting to `code/datasets/<name>.csv`
+Load path: `$LTSF_DIR/<name>.csv`, defaulting to `src/datasets/<name>.csv`
 (`code/covprop_r1.py`, `DATA` constant). Target is the last channel (OT);
 for the wide datasets (weather, electricity) the four channels with the
 highest train-split |correlation| to the target serve as covariates.
