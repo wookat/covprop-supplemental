@@ -1,0 +1,17 @@
+[ETTm2 m=5] mc cov=0.915 wink=3.405 share worst-terc=0.901 (3s)
+[ETTm2 m=10] mc cov=0.915 wink=3.449 share worst-terc=0.903 (7s)
+[ETTm2 m=25] mc cov=0.914 wink=3.440 share worst-terc=0.904 (11s)
+[ETTm2 m=50] mc cov=0.915 wink=4.012 share worst-terc=0.902 (14s)
+[ETTm2 m=100] mc cov=0.914 wink=3.588 share worst-terc=0.903 (18s)
+[ETTm2 m=200] mc cov=0.915 wink=3.945 share worst-terc=0.901 (22s)
+[ETTm2 m=full] mc cov=0.915 wink=4.052 share worst-terc=0.904 (26s)
+== ETTm2 done
+[electricity m=5] mc cov=0.888 wink=3.373 share worst-terc=0.869 (32s)
+[electricity m=10] mc cov=0.886 wink=3.395 share worst-terc=0.868 (36s)
+[electricity m=25] mc cov=0.883 wink=3.386 share worst-terc=0.868 (40s)
+[electricity m=50] mc cov=0.883 wink=3.350 share worst-terc=0.866 (44s)
+[electricity m=100] mc cov=0.883 wink=3.327 share worst-terc=0.868 (48s)
+[electricity m=200] mc cov=0.885 wink=3.321 share worst-terc=0.871 (52s)
+[electricity m=full] mc cov=0.885 wink=3.310 share worst-terc=0.872 (55s)
+== electricity done
+done in 55s -> /home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/results_r4/

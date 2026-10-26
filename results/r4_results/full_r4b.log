@@ -1,0 +1,34 @@
+[ETTh1 m=5] mc cov=0.926 wink=1.385 share worst-terc=0.920 (3s)
+[ETTh1 m=10] mc cov=0.926 wink=1.382 share worst-terc=0.921 (6s)
+[ETTh1 m=25] mc cov=0.927 wink=1.372 share worst-terc=0.923 (9s)
+[ETTh1 m=50] mc cov=0.926 wink=1.373 share worst-terc=0.922 (12s)
+[ETTh1 m=100] mc cov=0.927 wink=1.377 share worst-terc=0.921 (16s)
+[ETTh1 m=200] mc cov=0.926 wink=1.374 share worst-terc=0.921 (20s)
+[ETTh1 m=full] mc cov=0.926 wink=1.371 share worst-terc=0.921 (24s)
+== ETTh1 done
+[weather m=5] mc cov=0.810 wink=0.472 share worst-terc=0.781 (28s)
+[weather m=10] mc cov=0.805 wink=0.476 share worst-terc=0.780 (31s)
+[weather m=25] mc cov=0.802 wink=0.475 share worst-terc=0.781 (35s)
+[weather m=50] mc cov=0.801 wink=0.467 share worst-terc=0.789 (39s)
+[weather m=100] mc cov=0.801 wink=0.460 share worst-terc=0.789 (43s)
+[weather m=200] mc cov=0.801 wink=0.459 share worst-terc=0.791 (47s)
+[weather m=full] mc cov=0.800 wink=0.459 share worst-terc=0.789 (50s)
+== weather done
+[ETTh2 m=5] mc cov=0.904 wink=2.214 share worst-terc=0.896 (54s)
+[ETTh2 m=10] mc cov=0.904 wink=2.227 share worst-terc=0.896 (58s)
+[ETTh2 m=25] mc cov=0.904 wink=2.216 share worst-terc=0.897 (62s)
+[ETTh2 m=50] mc cov=0.902 wink=2.222 share worst-terc=0.897 (66s)
+[ETTh2 m=100] mc cov=0.903 wink=2.211 share worst-terc=0.897 (70s)
+[ETTh2 m=200] mc cov=0.904 wink=2.222 share worst-terc=0.897 (74s)
+[ETTh2 m=full] mc cov=0.902 wink=2.226 share worst-terc=0.896 (78s)
+== ETTh2 done
+Traceback (most recent call last):
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r4.py", line 146, in <module>
+    main()
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r4.py", line 122, in main
+    data, _ = load_any_r3(ds)
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r3.py", line 52, in load_any_r3
+    a = R1.load_ltsf(name)
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r1.py", line 61, in load_ltsf
+    with open(fp) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/datasets/ETTm2.csv'

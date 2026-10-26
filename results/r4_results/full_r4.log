@@ -1,0 +1,28 @@
+[NP m=5] mc cov=0.898 wink=2.743 share worst-terc=0.846 (3s)
+[NP m=10] mc cov=0.897 wink=2.726 share worst-terc=0.846 (5s)
+[NP m=25] mc cov=0.895 wink=2.703 share worst-terc=0.840 (9s)
+[NP m=50] mc cov=0.893 wink=2.698 share worst-terc=0.839 (12s)
+[NP m=100] mc cov=0.893 wink=2.686 share worst-terc=0.841 (16s)
+[NP m=200] mc cov=0.893 wink=2.683 share worst-terc=0.840 (20s)
+[NP m=full] mc cov=0.892 wink=2.675 share worst-terc=0.837 (24s)
+== NP done
+[FR m=5] mc cov=0.870 wink=2.595 share worst-terc=0.769 (28s)
+[FR m=10] mc cov=0.874 wink=2.541 share worst-terc=0.772 (31s)
+[FR m=25] mc cov=0.875 wink=2.523 share worst-terc=0.774 (35s)
+[FR m=50] mc cov=0.875 wink=2.511 share worst-terc=0.774 (40s)
+[FR m=100] mc cov=0.876 wink=2.496 share worst-terc=0.774 (44s)
+[FR m=200] mc cov=0.875 wink=2.511 share worst-terc=0.777 (47s)
+[FR m=full] mc cov=0.875 wink=2.519 share worst-terc=0.773 (51s)
+== FR done
+Traceback (most recent call last):
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r4.py", line 146, in <module>
+    main()
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r4.py", line 122, in main
+    data, _ = load_any_r3(ds)
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r3.py", line 56, in load_any_r3
+    return load_any(name)
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r1.py", line 90, in load_any
+    a = load_ltsf(name)
+  File "/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/covprop_r1.py", line 61, in load_ltsf
+    with open(fp) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/datasets/ETTh1.csv'

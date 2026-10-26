@@ -1,0 +1,133 @@
+{
+ "per_dataset": [
+  {
+   "dataset": "NP",
+   "prop_share_cal_unclipped": -0.08022766191895343,
+   "upstream_relerr_cal": 0.339815928995974,
+   "upstream_skill_vs_persistence": 0.6224428940809721,
+   "prop_share_width": 0.12152181115218987,
+   "sharebin_cov_spread_uniform": 0.08173647644560578,
+   "sharebin_cov_spread_share": 0.006849428325752527,
+   "winkler_gain_share_vs_recal": 0.024469374839112306,
+   "winkler_gain_mc_vs_recal": 0.017227696854107695,
+   "worst_terc_gain_share_vs_recal": -0.01601666666666668
+  },
+  {
+   "dataset": "FR",
+   "prop_share_cal_unclipped": -0.06826010579937627,
+   "upstream_relerr_cal": 0.2297473958088437,
+   "upstream_skill_vs_persistence": 0.46547936155788505,
+   "prop_share_width": 0.2673888856018933,
+   "sharebin_cov_spread_uniform": 0.02623325339829452,
+   "sharebin_cov_spread_share": 0.007782237514454726,
+   "winkler_gain_share_vs_recal": -0.004513491291639369,
+   "winkler_gain_mc_vs_recal": -0.0014795646178264407,
+   "worst_terc_gain_share_vs_recal": 0.011833333333333473
+  },
+  {
+   "dataset": "ETTh1",
+   "prop_share_cal_unclipped": -0.33643754754014166,
+   "upstream_relerr_cal": 0.45068514797996945,
+   "upstream_skill_vs_persistence": 0.6479900421277318,
+   "prop_share_width": 0.09804778240550649,
+   "sharebin_cov_spread_uniform": 0.0014325802918948582,
+   "sharebin_cov_spread_share": 0.006260353555644471,
+   "winkler_gain_share_vs_recal": -0.03276444111841201,
+   "winkler_gain_mc_vs_recal": -0.02506623297307924,
+   "worst_terc_gain_share_vs_recal": 0.0032999999999999696
+  },
+  {
+   "dataset": "weather",
+   "prop_share_cal_unclipped": -0.539139351494934,
+   "upstream_relerr_cal": 0.4891993310331464,
+   "upstream_skill_vs_persistence": 0.680078991510213,
+   "prop_share_width": 0.15337505529801462,
+   "sharebin_cov_spread_uniform": 0.1757882498320188,
+   "sharebin_cov_spread_share": 0.1173495007613603,
+   "winkler_gain_share_vs_recal": 0.17224144888915727,
+   "winkler_gain_mc_vs_recal": 0.15508053223904686,
+   "worst_terc_gain_share_vs_recal": -0.017699999999999938
+  },
+  {
+   "dataset": "ETTh2",
+   "prop_share_cal_unclipped": 0.0012567514040045414,
+   "upstream_relerr_cal": 0.22528599337554506,
+   "upstream_skill_vs_persistence": 0.9926853358211367,
+   "prop_share_width": 0.10202627408926213,
+   "sharebin_cov_spread_uniform": 0.03462733761928394,
+   "sharebin_cov_spread_share": 0.005552733702727908,
+   "winkler_gain_share_vs_recal": -0.11080302561039561,
+   "winkler_gain_mc_vs_recal": -0.11340230617329371,
+   "worst_terc_gain_share_vs_recal": 0.004616666666666602
+  },
+  {
+   "dataset": "ETTm2",
+   "prop_share_cal_unclipped": 0.2657545951125697,
+   "upstream_relerr_cal": 0.17624187792740068,
+   "upstream_skill_vs_persistence": 1.0314399980618738,
+   "prop_share_width": 0.5575144566676077,
+   "sharebin_cov_spread_uniform": 0.022165088972651015,
+   "sharebin_cov_spread_share": 0.013560497067219401,
+   "winkler_gain_share_vs_recal": -1.1346266764979331,
+   "winkler_gain_mc_vs_recal": -1.0578603164505147,
+   "worst_terc_gain_share_vs_recal": 0.001283333333333303
+  },
+  {
+   "dataset": "electricity",
+   "prop_share_cal_unclipped": 0.17367348405769445,
+   "upstream_relerr_cal": 0.31665261495550695,
+   "upstream_skill_vs_persistence": 0.49719352712512965,
+   "prop_share_width": 0.016874177663684094,
+   "sharebin_cov_spread_uniform": 0.1701187342381848,
+   "sharebin_cov_spread_share": 0.020944952296691577,
+   "winkler_gain_share_vs_recal": 0.06859359220775951,
+   "winkler_gain_mc_vs_recal": 0.042430666226403915,
+   "worst_terc_gain_share_vs_recal": 0.01746666666666652
+  }
+ ],
+ "correlations": {
+  "prop_share_cal_unclipped__winkler_gain_share_vs_recal": {
+   "spearman_rho": -0.5357142857142858,
+   "spearman_p": 0.21521745567801298,
+   "pearson_r": -0.6149049059008647,
+   "pearson_p": 0.1416944323816585
+  },
+  "prop_share_cal_unclipped__winkler_gain_mc_vs_recal": {
+   "spearman_rho": -0.5357142857142858,
+   "spearman_p": 0.21521745567801298,
+   "pearson_r": -0.626067821844925,
+   "pearson_p": 0.13255474070755063
+  },
+  "prop_share_cal_unclipped__worst_terc_gain_share_vs_recal": {
+   "spearman_rho": 0.5357142857142858,
+   "spearman_p": 0.21521745567801298,
+   "pearson_r": 0.5741629733216462,
+   "pearson_p": 0.17764533051381534
+  },
+  "prop_share_width__winkler_gain_share_vs_recal": {
+   "spearman_rho": -0.28571428571428575,
+   "spearman_p": 0.5345092286010406,
+   "pearson_r": -0.8899515337545901,
+   "pearson_p": 0.007266372446938429
+  },
+  "prop_share_width__winkler_gain_mc_vs_recal": {
+   "spearman_rho": -0.28571428571428575,
+   "spearman_p": 0.5345092286010406,
+   "pearson_r": -0.8842275246291001,
+   "pearson_p": 0.008222160814106452
+  },
+  "prop_share_width__worst_terc_gain_share_vs_recal": {
+   "spearman_rho": -0.42857142857142866,
+   "spearman_p": 0.3373683110858243,
+   "pearson_r": -0.041650336987757344,
+   "pearson_p": 0.9293535061039453
+  }
+ },
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ]
+}

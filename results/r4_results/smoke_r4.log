@@ -1,0 +1,4 @@
+[NP m=25] mc cov=0.892 wink=2.665 share worst-terc=0.837 (1s)
+[NP m=full] mc cov=0.891 wink=2.666 share worst-terc=0.836 (1s)
+== NP done
+done in 1s -> /home/dell/wookat/tsf-2027/t2_covprop/r4_work/code/results_r4/
