@@ -133,7 +133,7 @@ def fig2_conditional():
     ax.set_yticks(y)
     names = [LBL[m] for m in ms]
     names = [n.replace(" (ours)", "*") for n in names]
-    ax.set_yticklabels(names, fontsize=6.8)
+    ax.set_yticklabels(names, fontsize=6.0)
     ax.set_xlabel("conditional coverage", fontsize=7)
     ax.tick_params(axis="x", labelsize=6.5)
     ax.set_xlim(0.35, 1.03)
