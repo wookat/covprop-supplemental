@@ -7,7 +7,7 @@
     (no conformal correction), evaluated at every bias level.
 
 Roster per grid point: recal, covprop_nocal (lambda=1), covprop_mc.
-Outputs: results_r5/bias_<ds>.json   (CPU-only). Raw results untouched.
+Outputs: results/biased_log/bias_<ds>.json   (CPU-only). Raw results untouched.
 """
 import argparse, json, os, sys, time
 import numpy as np

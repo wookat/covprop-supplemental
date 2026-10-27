@@ -1,6 +1,6 @@
-"""CovProp v2 preregistered experiments (icde2027_v2_prep).
+"""CovProp preregistered degradation-sweep experiments.
 
-E1  Upstream-degradation sweep: the R3 real-stream protocol with the deployed
+E1  Upstream-degradation sweep: the real-stream protocol of src/share.py with the deployed
     upstream forecast degraded along two axes, applied consistently to
     calibration and test:
       mech A ("noise"): up + gamma * per-channel clean-error RMS * N(0,1);
@@ -13,8 +13,8 @@ E1  Upstream-degradation sweep: the R3 real-stream protocol with the deployed
     lean roster (oracle / naive / recal / covprop_mc / covprop_share).
 E2  is pure analysis over E1 outputs (policy_analysis.py).
 
-Protocol pieces are imported unchanged from the frozen R2/R3 drivers; nothing
-under r4_work/code or icde2027_v1 is modified.  Outputs: results_v2*/ .
+Protocol pieces are imported unchanged from the frozen
+src/upstream.py and src/share.py layers.  Outputs: results/policy/.
 CPU-only.
 """
 import argparse, json, os, sys, time
@@ -40,7 +40,7 @@ POINTS = ([("noise", g) for g in (0.0, 0.5, 1.0, 2.0, 4.0)]
 SEEDS = [0, 1, 2]
 
 
-def run_once_v2(data, seed, mech, level):
+def run_once(data, seed, mech, level):
     """One (stream, mech, level, seed) operating point.  Lean roster; the
     upstream forecast is degraded identically on calibration and test."""
     T = len(data)
@@ -193,7 +193,7 @@ def main():
         for mech, lv in points:
             runs, pws, diags = [], [], []
             for s in seeds:
-                o, pw, dg = run_once_v2(data, s, mech, lv)
+                o, pw, dg = run_once(data, s, mech, lv)
                 runs.append(o); pws.append(pw); diags.append(dg)
                 print(f"  [{ds} {mech}={lv} seed {s}] skill="
                       f"{dg['skill_vs_persistence']:.3f} "

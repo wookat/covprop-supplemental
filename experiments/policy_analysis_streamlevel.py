@@ -2,7 +2,7 @@
 backtest / temporal extrapolation), H6 (undegraded-domain regret), and H7
 (stream-clustered significance) over the 5-seed sweep produced by
 backtest_extrap.py, and cross-checks that seeds 0-2 reproduce the frozen
-results_v2 numbers (read-only).  Writes results/policy_r1fix.json.
+the 5-seed sweep numbers (read-only).  Writes results/policy/policy_streamlevel.json.
 """
 import argparse, glob, json, os
 import numpy as np
@@ -156,7 +156,7 @@ def main():
         (sr["n_streams_selector_better"] == sr["n_streams"])
         or (sr["hier_bootstrap_ci95"][0] > 0))
 
-    with open(os.path.join(out_dir, "policy_r1fix.json"), "w") as f:
+    with open(os.path.join(out_dir, "policy_streamlevel.json"), "w") as f:
         json.dump(res, f, indent=1)
     print(json.dumps({k: v for k, v in res.items()
                       if k != "frozen_crosscheck"}, indent=1)[:4000])

@@ -24,7 +24,7 @@ across all datasets and disclosed in the paper):
          a window of recent matured residual statistics (fit once on the
          calibration stream; the conformal wrapper adapts online).
 
-Outputs: results_r1/*.json/.csv/.npz/.png  (CPU-only)
+Outputs: results/baselines/*.json/.csv/.npz/.png  (CPU-only)
 """
 import argparse, csv, json, os, sys, time
 import numpy as np
@@ -47,7 +47,7 @@ from baselines import ACI, NexCP, winkler      # noqa: E402
 from rc_cp import MondrianCP                   # noqa: E402
 from scipy.stats import norm                   # noqa: E402
 
-OUT = os.path.join(HERE, "results_r1")
+OUT = os.path.join(HERE, "..", "results", "baselines")
 DATA = os.environ.get("LTSF_DIR", os.path.join(HERE, "datasets"))
 REAL = ["NP", "PJM", "BE", "FR", "DE", "ETTh1", "ETTm1", "weather", "electricity"]
 BETA = 0.05

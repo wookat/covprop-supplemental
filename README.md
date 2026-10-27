@@ -5,12 +5,12 @@ Future Covariates into Conformal Prediction Intervals"* (ICDE 2027 submission).
 
 ## Requirements
 
-Python 3.9+ with `numpy`, `scipy`, `matplotlib`. CPU-only; no pandas, sklearn,
-or deep-learning framework needed — all backbones are the linear /
-per-horizon MLP models disclosed in the paper.
+Python 3.9+ with `numpy`, `scipy`, `matplotlib` (see `requirements.txt`).
+CPU-only; no pandas, sklearn, or deep-learning framework needed — all
+backbones are the linear / per-horizon MLP models disclosed in the paper.
 
 ```bash
-pip install numpy scipy matplotlib
+pip install -r requirements.txt
 ```
 
 ## Layout
@@ -47,7 +47,7 @@ prereg/                    Pre-registered protocols frozen before each run
   PREREG_FIX.md            Fix-protocol amendment
 results/                   Raw artifacts, organized by claim
   ad_analysis.json         Applicability-domain analysis (Sec. VII-D)
-  hybrid/                  l2_<stream>.json + perwin_*.npz (Tables IV–VI)
+  hybrid/                  hybrid_<stream>.json + perwin_*.npz (Tables IV–VI)
   poolsize/                poolsize_<stream>.json (Table VII)
   biased_log/              bias_<stream>.json (Sec. VII-C ablation)
   policy/                  sweep_*.json + sweep5_*.json + policy_*.json (Table VIII)
@@ -74,6 +74,9 @@ python experiments/bench_overhead.py --streams NP --seeds 0
 
 Each driver writes its outputs under `results/<topic>/` alongside the shipped
 files (regeneration is additive; shipped JSONs are byte-identical provenance).
+The `src/` protocol layers can also be run standalone; they write their
+intermediate artifacts to `results/baselines/`, `results/propagation/`, and
+`results/share/` respectively (created on demand, not shipped).
 
 ## Artifact → paper claim map
 

@@ -1,4 +1,4 @@
-"""L2 (R3 convergence round): preregistered CQR x CovProp hybrids.
+"""Preregistered CQR x CovProp hybrids.
 
 See PREREG_HYBRID.md (registered before running).  Two designs:
   hybrid_mc_cqr       -- input-side MC propagation into the CQR pinball heads.
@@ -211,12 +211,12 @@ def main():
             significance_r2(pws, seed_metrics, ref="cqr")
         rep["significance_winkler_vs_covprop_share"] = \
             significance_r2(pws, seed_metrics, ref="covprop_share")
-        with open(f"{OUT}/l2_{ds}.json", "w") as f:
+        with open(f"{OUT}/hybrid_{ds}.json", "w") as f:
             json.dump(rep, f, indent=1)
-        np.savez_compressed(f"{OUT}/perwin_l2_{ds}.npz",
+        np.savez_compressed(f"{OUT}/perwin_{ds}.npz",
                             **{f"s{si}_{m}": pw[m]
                                for si, pw in enumerate(pws) for m in pw})
-        print(f"== l2 {ds} done", flush=True)
+        print(f"== hybrid {ds} done", flush=True)
     print(f"\ndone in {time.time()-t0:.0f}s -> {OUT}/", flush=True)
 
 

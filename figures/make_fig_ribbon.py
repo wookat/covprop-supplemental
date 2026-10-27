@@ -1,6 +1,6 @@
 # Qualitative interval-ribbon showcase: real upstream-error stream (weather),
 # 200-window segment where naive coverage collapses and CovProp-MC restores it.
-# Data: ribbon_weather.npz dumped by r4_work/code/dump_ribbon.py (seed 0,
+# Data: ribbon_weather.npz dumped by experiments/dump_ribbon.py (seed 0,
 # real-stream protocol). Top: realized series + naive/CovProp bands + naive
 # misses (red dots); bottom strip: |eta_t| (unlabeled upstream error) with the
 # top-tercile threshold -- misses cluster where upstream error is large.

@@ -19,11 +19,11 @@ S2  Nonlinear backbone: per-horizon 1-hidden-layer MLP (tanh, 32 units,
     Adam 400 steps) replacing the ridge backbone; SynDeg + NP + ETTh1.
 S3  ACI x CovProp composition: ACI level adaptation run on the CovProp-MC
     normalized scores (Y - mid)/half instead of the static matured quantile;
-    added to every R2 run and to replay-mode PJM / weather.
+    added to every upstream-protocol run and to replay-mode PJM / weather.
 N1  K (MC samples) sensitivity on SynDeg.
 N3  Per-hour conditional coverage on the market real-stream runs.
 
-Outputs: results_r2/  (CPU-only).
+Outputs: results/propagation/  (CPU-only).
 """
 import argparse, csv, json, os, sys, time
 import numpy as np
@@ -43,12 +43,12 @@ from covprop_core import (ALPHA, H, L_HIST, K_MC, build_windows, features,
 from baselines import ACI, NexCP, winkler                        # noqa: E402
 from rc_cp import MondrianCP                                     # noqa: E402
 from scipy.stats import norm                                     # noqa: E402
-import adaptive_baselines as R1                                          # noqa: E402
+import adaptive_baselines as BASE                                          # noqa: E402
 from adaptive_baselines import (load_any, run_cqr, run_norcp, run_spci,
                         winkler_pw, BETA)                        # noqa: E402
 
-OUT = os.path.join(HERE, "results_r2")
-R1OUT = os.environ.get("R1_RESULTS", os.path.join(HERE, "..", "results_r1"))
+OUT = os.path.join(HERE, "..", "results", "propagation")
+BASELINE_OUT = os.environ.get("BASELINE_RESULTS", os.path.join(HERE, "..", "results", "baselines"))
 REAL_STREAM = ["NP", "FR", "ETTh1", "weather"]
 MLP_DS = ["SynDeg", "NP", "ETTh1"]
 COMPOSE_DS = ["PJM", "weather"]
@@ -114,9 +114,9 @@ def restat_r1():
     """Recompute significance for all 10 R1 datasets from archived per-window
     scores; write per-dataset JSON + LaTeX star map."""
     out = {}
-    for ds in ["SynDeg"] + R1.REAL:
-        npz = np.load(f"{R1OUT}/perwin_{ds}.npz")
-        rep = json.load(open(f"{R1OUT}/main_{ds}.json"))
+    for ds in ["SynDeg"] + BASE.REAL:
+        npz = np.load(f"{BASELINE_OUT}/perwin_{ds}.npz")
+        rep = json.load(open(f"{BASELINE_OUT}/main_{ds}.json"))
         seeds = rep["seeds"]
         methods = sorted({k.split("_", 1)[1] for k in npz.files})
         pws = [{m: npz[f"s{si}_{m}"] for m in methods if f"s{si}_{m}" in npz}

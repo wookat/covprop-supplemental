@@ -12,14 +12,13 @@ D1  CovProp-Share: the width decomposition upgraded from a diagnostic to an
     the largest per-bin quantile to match worst-bin coverage, the binned
     allocation attains it at bin-specific quantiles.
 D2  Three new real upstream forecast--realization error streams (ETTh2,
-    ETTm2, electricity) under the R2 ridge upstream-forecaster protocol --
+    ETTm2, electricity) under the ridge upstream-forecaster protocol --
     out-of-corpus validation of the applicability-domain criterion.
-D3  Head-to-head CQR / SPCI / normalized CP on the new streams (full R2
-    method roster inherited).
+D3  Head-to-head CQR / SPCI / normalized CP on the new streams (full method roster inherited).
 AD  Predictive power of the calibration-estimated propagation share for the
     realized CovProp benefit, across all seven real streams.
 
-Outputs: results_r3/   (CPU-only).
+Outputs: results/share/   (CPU-only).
 """
 import argparse, json, os, sys, time
 import numpy as np
@@ -38,7 +37,7 @@ from adaptive_baselines import (load_any, run_cqr, run_norcp, run_spci,
 from upstream import (upstream_forecast, mc_quantiles_any, preds_any,
                         significance_r2)                         # noqa: E402
 
-OUT = os.path.join(HERE, "results_r3")
+OUT = os.path.join(HERE, "..", "results", "share")
 NEW_STREAMS = ["ETTh2", "ETTm2", "electricity"]
 OLD_STREAMS = ["NP", "FR", "ETTh1", "weather"]
 ALL_STREAMS = OLD_STREAMS + NEW_STREAMS
@@ -47,9 +46,9 @@ N_BINS = 3
 
 def load_any_r3(name):
     """Extends R1 load_any with ETTh2 / ETTm2 (same LTSF loader)."""
-    import adaptive_baselines as R1
+    import adaptive_baselines as BASE
     if name in ("ETTh2", "ETTm2"):
-        a = R1.load_ltsf(name)
+        a = BASE.load_ltsf(name)
         mu = a[:int(len(a) * .6)].mean(0)
         sd = a[:int(len(a) * .6)].std(0) + 1e-8
         return (a - mu) / sd, "nonparam"

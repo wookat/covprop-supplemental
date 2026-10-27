@@ -1,12 +1,12 @@
 """E4: H4 backtest-selector validation-domain extension (preregistered in
 PREREG_FIX.md).  Reruns the frozen 63-point degradation grid of
-icde2027_v2_prep/experiments/covprop_sweep.py with two additions and no other
+experiments/covprop_sweep.py with two additions and no other
 protocol change:
   (E4a) an *early* backtest whose decision window is moved half a B2 segment
         earlier (doubling the temporal gap to deployment);
-  (E4c) 5 seeds instead of 3 (seeds 0-2 reproduce the frozen results_v2 runs
+  (E4c) 5 seeds instead of 3 (seeds 0-2 reproduce the frozen sweep runs
         bit-for-bit; read-only cross-check done in the analysis script).
-Outputs results/sweep5_<stream>.json; frozen results_v2/ untouched.
+Outputs results/policy/sweep5_<stream>.json; frozen sweep_* results untouched.
 """
 import json, os, sys, time
 import numpy as np
@@ -34,7 +34,7 @@ SEEDS = [0, 1, 2, 3, 4]
 
 def backtest_on(Y, mid, half, sc, rho, p_obs, res_noisy, sd, ts, i0, i1, i2):
     """Backtest the 3-intervention menu: calibrate on [i0:i1], score on the
-    labeled window [i1:i2].  Identical machinery to covprop_sweep.run_once_v2."""
+    labeled window [i1:i2].  Identical machinery to covprop_sweep.run_once."""
     bt = {}
     q_rec = online_q(res_noisy[i0:i1],
                      np.abs(Y[i1:i2] - p_obs[i1:i2]) / sd[i1:i2],
