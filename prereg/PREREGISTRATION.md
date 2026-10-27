@@ -1,4 +1,4 @@
-# CovProp ICDE v2 补强实验预注册（icde2027_v2_prep）
+# CovProp 补强实验预注册（degradation-sweep protocol）
 
 - 日期：2026-08-10（正式跑之前定稿；smoke 仅用于验证代码可运行，不用于调阈值）
 - 背景：混池盲评（reading_room/venue_pool_ranking_kdd_icde.md，A4 = 9/11，lean reject / major revision）两大硬伤：

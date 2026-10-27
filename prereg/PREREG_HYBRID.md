@@ -1,4 +1,4 @@
-# PREREG_L2 — CQR × CovProp hybrid (R3 convergence round, leverage item L2 / G2-7)
+# PREREG_HYBRID — CQR × CovProp hybrid (convergence round)
 
 - Date registered: 2026-08-12 (this file is written and synced to xu-1 **before**
   any L2 experiment is run; results JSONs will carry later mtimes).

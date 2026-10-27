@@ -1,4 +1,4 @@
-# CovProp R1 修复实验预注册（oral_loop/r1_fix）
+# CovProp 修复实验预注册（protocol-fix amendment）
 
 - 日期：2026-08-11（正式跑之前定稿）
 - 背景：独立审稿 R1（oral_loop/R1_review.md，6.9 weak accept）两条主修复线：
