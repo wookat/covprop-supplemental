@@ -1,6 +1,6 @@
 """L2 (R3 convergence round): preregistered CQR x CovProp hybrids.
 
-See PREREG_L2.md (registered before running).  Two designs:
+See PREREG_HYBRID.md (registered before running).  Two designs:
   hybrid_mc_cqr       -- input-side MC propagation into the CQR pinball heads.
   hybrid_cqr_covwidth -- CQR intervals, conformal correction normalized by the
                          CovProp-MC propagated half-width.
@@ -9,7 +9,7 @@ covprop_mc, covprop_share.  Plus a calibration-split backtest between the two
 hybrids (same selector as the paper's SS Policy) so H8a uses a label-free
 per-stream hybrid choice.
 
-Outputs: results_l2/   (CPU-only).
+Outputs: hybrid/   (CPU-only).
 """
 import argparse, json, os, sys, time
 import numpy as np
@@ -19,17 +19,17 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, K_MC, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, H, K_MC, build_windows, train_base, split_q,
                           online_q, features, evaluate)          # noqa: E402
-from covprop_r1 import (run_cqr, fit_pinball, pred_lin,
+from adaptive_baselines import (run_cqr, fit_pinball, pred_lin,
                         winkler_pw)                              # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any, preds_any,
+from upstream import (upstream_forecast, mc_quantiles_any, preds_any,
                         significance_r2)                         # noqa: E402
-from covprop_r3 import (load_any_r3, share_variable, binned_lambda,
+from share import (load_any_r3, share_variable, binned_lambda,
                         ALL_STREAMS)                             # noqa: E402
 
-OUT = os.path.join(ROOT, "results", "results_l2")
+OUT = os.path.join(ROOT, "results", "hybrid")
 
 
 def train_cqr_heads(Xh_tr, Xc_tr, Y_tr, ts_tr):

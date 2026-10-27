@@ -11,7 +11,7 @@
 Protocol: identical R2/R3 real-stream protocol (7 streams NP, FR, ETTh1,
 weather, ETTh2, ETTm2, electricity; ridge upstream forecaster; linear backbone;
 chronological 60/20/20; matured feedback; alpha = 0.1; seeds 0–4; K = 64;
-no per-dataset tuning). Code: `oral_loop/r3_fix/covprop_l2.py`, importing the
+no per-dataset tuning). Code: `experiments/covprop_hybrid.py`, importing the
 frozen R2/R3 modules unchanged.
 
 - **Hybrid A (primary), `hybrid_mc_cqr` — input-side propagation into the CQR
@@ -49,5 +49,5 @@ recal, cqr, covprop_mc, covprop_share (definitions unchanged from R3).
   round.
 
 ## Outputs
-`oral_loop/r3_fix/results_l2/l2_<stream>.json` (+ per-window npz), summary in
+`results/hybrid/l2_<stream>.json` (+ per-window npz), summary in
 `RESPONSE_TO_R3.md`.

@@ -25,13 +25,13 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, H, build_windows, train_base, split_q,
                           online_q, evaluate)                    # noqa: E402
-from covprop_r1 import winkler_pw                                # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any,
+from adaptive_baselines import winkler_pw                                # noqa: E402
+from upstream import (upstream_forecast, mc_quantiles_any,
                         preds_any)                               # noqa: E402
-from covprop_r3 import (load_any_r3, share_variable, binned_lambda,
+from share import (load_any_r3, share_variable, binned_lambda,
                         cov_by_bins, N_BINS)                     # noqa: E402
 
 STREAMS = ["NP", "FR", "ETTh1", "weather", "ETTh2", "ETTm2", "electricity"]
@@ -140,7 +140,7 @@ def run_once_v2(data, seed, mech, level):
        endo_w)
 
     # calibration-side backtest (pre-deployment detector) --------------------
-    from covprop_full import winkler as winkler_fn
+    from covprop_core import winkler as winkler_fn
     nB = len(Y_ca[B])
     h2 = nB // 2
     ts_B = np.asarray(ts_ca[B])

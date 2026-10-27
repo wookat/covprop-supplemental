@@ -35,16 +35,16 @@ sys.path.insert(0, CODE)
 sys.path.insert(0, os.path.join(CODE, "core"))
 sys.path.insert(0, HERE)
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, L_HIST, K_MC, build_windows, features,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, H, L_HIST, K_MC, build_windows, features,
                           train_base, preds, split_q, online_q, gauss_noise,
                           make_hetero_sigma, make_ar_error, covprop_nested,
                           evaluate, load_dataset)                # noqa: E402
 from baselines import ACI, NexCP, winkler                        # noqa: E402
 from rc_cp import MondrianCP                                     # noqa: E402
 from scipy.stats import norm                                     # noqa: E402
-import covprop_r1 as R1                                          # noqa: E402
-from covprop_r1 import (load_any, run_cqr, run_norcp, run_spci,
+import adaptive_baselines as R1                                          # noqa: E402
+from adaptive_baselines import (load_any, run_cqr, run_norcp, run_spci,
                         winkler_pw, BETA)                        # noqa: E402
 
 OUT = os.path.join(HERE, "results_r2")

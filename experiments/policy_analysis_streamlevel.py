@@ -1,4 +1,4 @@
-"""E4 analysis (preregistered in PREREG_R1FIX.md): evaluates H5 (early
+"""E4 analysis (preregistered in PREREG_FIX.md): evaluates H5 (early
 backtest / temporal extrapolation), H6 (undegraded-domain regret), and H7
 (stream-clustered significance) over the 5-seed sweep produced by
 backtest_extrap.py, and cross-checks that seeds 0-2 reproduce the frozen

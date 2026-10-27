@@ -15,11 +15,11 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-from covprop_full import (ALPHA, H, build_windows, train_base,  # noqa: E402
+from covprop_core import (ALPHA, H, build_windows, train_base,  # noqa: E402
                           split_q)
-from covprop_r2 import (upstream_forecast, mc_quantiles_any,    # noqa: E402
+from upstream import (upstream_forecast, mc_quantiles_any,    # noqa: E402
                         preds_any)
-from covprop_r3 import load_any_r3                              # noqa: E402
+from share import load_any_r3                              # noqa: E402
 
 STREAMS = ["NP", "FR", "ETTh1", "weather", "ETTh2", "ETTm2", "electricity"]
 K = 64

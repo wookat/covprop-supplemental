@@ -28,7 +28,7 @@
 ## E4 H4 backtest selector 验证域扩展（backtest_extrap.py + policy_analysis_streamlevel.py）
 
 沿用 icde2027_v2_prep 的 63 点降质网格（7 流 × [noise γ∈{0,.5,1,2,4}; blend
-λ∈{.25,.5,.75,1}]），协议与 covprop_v2.py 完全一致，改动仅两处（见 E4a/E4c）。
+λ∈{.25,.5,.75,1}]），协议与 covprop_sweep.py 完全一致，改动仅两处（见 E4a/E4c）。
 
 ### E4a 时间外推（决策点前移）
 - 原 H4：backtest 在校准 B 段后半（B2a 校准 / B2b 评估，决策点紧邻测试段）。

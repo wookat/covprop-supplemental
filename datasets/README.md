@@ -21,7 +21,7 @@ ETT: <https://github.com/zhouhaoyi/ETDataset>;
 weather/electricity: <https://github.com/thuml/Autoformer>.
 
 Load path: `$LTSF_DIR/<name>.csv`, defaulting to `src/datasets/<name>.csv`
-(`code/covprop_r1.py`, `DATA` constant). Target is the last channel (OT);
+(`src/adaptive_baselines.py`, `DATA` constant). Target is the last channel (OT);
 for the wide datasets (weather, electricity) the four channels with the
 highest train-split |correlation| to the target serve as covariates.
 

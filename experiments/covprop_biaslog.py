@@ -1,14 +1,13 @@
-"""CovProp R4 experiment: how much logged upstream history is enough?
+"""CovProp R5: two ablations on the real-stream protocol.
 
-Addresses the "strong premise" critique: CovProp needs a characterized
-upstream error distribution.  In deployment the pool is estimated from m
-logged forecast--realization residual windows.  R4 quantifies the coverage /
-efficiency of CovProp-MC and CovProp-Share as a function of the pool size m,
-on all seven real upstream-error streams (unchanged R2/R3 protocol; the only
-change is that the MC sampler draws from a random m-window subsample of the
-calibration error pool eps_ca[A]).
+(A) Biased upstream error log: restrict the MC pool to the smallest
+    |eps|-fraction of logged error windows -> F_t under-reports the tail.
+    Grid f in {1.0, 0.5, 0.25, 0.1} (1.0 = unbiased full pool).
+(B) Propagation-only: same MC intervals with stage-2 lambda fixed to 1
+    (no conformal correction), evaluated at every bias level.
 
-Outputs: results_r4/  (CPU-only).  Raw R1/R2/R3 untouched.
+Roster per grid point: recal, covprop_nocal (lambda=1), covprop_mc.
+Outputs: results_r5/bias_<ds>.json   (CPU-only). Raw results untouched.
 """
 import argparse, json, os, sys, time
 import numpy as np
@@ -18,22 +17,19 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, build_windows, train_base, split_q,
                           online_q, evaluate)                    # noqa: E402
-from covprop_r1 import winkler_pw                                # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any,
+from adaptive_baselines import winkler_pw                                # noqa: E402
+from upstream import (upstream_forecast, mc_quantiles_any,
                         preds_any)                               # noqa: E402
-from covprop_r3 import (load_any_r3, share_variable, binned_lambda,
-                        cov_by_bins, N_BINS, ALL_STREAMS)        # noqa: E402
+from share import (load_any_r3, ALL_STREAMS)                 # noqa: E402
 
-OUT = os.path.join(ROOT, "results", "r4")
-POOL_GRID = [10, 25, 50, 100, 200, 0]        # 0 = full pool (R3 reference)
+OUT = os.path.join(ROOT, "results", "biased_log")
+BIAS_GRID = [1.0, 0.5, 0.25, 0.1]
 
 
-def run_once_pool(data, seed, pool_m):
-    """R3 real-mode run restricted to {recal, covprop_mc, covprop_share},
-    with the MC error pool subsampled to pool_m windows (0 = full)."""
+def run_once_bias(data, seed, keep_frac):
     rng = np.random.RandomState(seed)
     T = len(data)
     tr_end, cal_end = int(T * 0.6), int(T * 0.8)
@@ -62,7 +58,6 @@ def run_once_pool(data, seed, pool_m):
     res_B_noisy = np.abs(Y_ca[B] - p_caB_obs) / sd_ca[B]
     sc_clean_all = np.abs(Y_ca - p_ca_clean) / sd_ca
     endo_w = float((2 * split_q(sc_clean_all, ALPHA) * sd_te).mean())
-    q_clean_static = split_q(sc_clean_all, ALPHA)
     q_rec = online_q(res_B_noisy, np.abs(Y_te - p_te_obs) / sd_te,
                      ts_te, ALPHA)
 
@@ -77,12 +72,14 @@ def run_once_pool(data, seed, pool_m):
     rng2 = np.random.RandomState(seed + 1)
     res_signed = res_A_clean * np.sign(rng2.normal(size=res_A_clean.shape))
     full_pool = eps_ca[A]
-    if pool_m and pool_m < len(full_pool):
-        idx = rng.choice(len(full_pool), pool_m, replace=False)
+    if keep_frac < 1.0:
+        # biased log: keep only the smallest-|eps| windows
+        row_mag = np.abs(full_pool).mean(axis=(1, 2))
+        n_keep = max(5, int(len(full_pool) * keep_frac))
+        idx = np.argsort(row_mag)[:n_keep]
         pool = full_pool[idx]
     else:
         pool = full_pool
-    m_eff = len(pool)
     samp_ca = lambda k: pool[rng2.randint(0, len(pool), len(Xc_ca_obs[B]))]
     samp_te = lambda k: pool[rng2.randint(0, len(pool), len(Xc_te_obs))]
     lo_B, hi_B = mc_quantiles_any(ws, Xh_ca[B], Xc_ca_obs[B], ts_ca[B],
@@ -94,51 +91,41 @@ def run_once_pool(data, seed, pool_m):
     sc_B = np.abs(Y_ca[B] - mid_B) / half_B
     sc_T = np.abs(Y_te - mid_T) / half_T
     lam_u = online_q(sc_B, sc_T, np.asarray(ts_te), ALPHA)
+    # (B) propagation-only: no stage-2 correction
+    ev("covprop_nocal", mid_T - half_T, mid_T + half_T, endo_w)
+    # (A) full CovProp-MC under the biased log
     ev("covprop_mc", mid_T - lam_u * half_T, mid_T + lam_u * half_T, endo_w)
-
-    endo_half_B = np.broadcast_to(q_clean_static[None, :] * sd_ca[B],
-                                  half_B.shape)
-    endo_half_T = np.broadcast_to(q_clean_static[None, :] * sd_te,
-                                  half_T.shape)
-    rho_B = share_variable(half_B, endo_half_B)
-    rho_T = share_variable(half_T, endo_half_T)
-    lam_s, bins_T, _ = binned_lambda(sc_B, sc_T, rho_B, rho_T, ts_te, ALPHA)
-    ev("covprop_share", mid_T - lam_s * half_T, mid_T + lam_s * half_T,
-       endo_w)
-    share_terc = cov_by_bins(Y_te, mid_T - lam_s * half_T,
-                             mid_T + lam_s * half_T, bins_T)
-    return out, per_win, {"pool_m_effective": m_eff,
-                          "share_cov_by_share_tercile": share_terc}
+    return out, per_win, {"pool_m_effective": len(pool)}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", nargs="+", type=int, default=[0, 1, 2, 3, 4])
     ap.add_argument("--streams", nargs="+", default=ALL_STREAMS)
-    ap.add_argument("--grid", nargs="+", type=int, default=POOL_GRID)
+    ap.add_argument("--grid", nargs="+", type=float, default=BIAS_GRID)
     args = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     t0 = time.time()
     for ds in args.streams:
         data, _ = load_any_r3(ds)
         rep = {"dataset": ds, "seeds": list(args.seeds), "grid": {}}
-        for m in args.grid:
-            res = [run_once_pool(data, s, m) for s in args.seeds]
+        for f in args.grid:
+            res = [run_once_bias(data, s, f) for s in args.seeds]
             runs = [r[0] for r in res]
             diags = [r[2] for r in res]
-            key = str(m if m else "full")
+            key = str(f)
             rep["grid"][key] = {
-                "m_effective": diags[0]["pool_m_effective"],
+                "pool_m_effective": diags[0]["pool_m_effective"],
                 "aggregate": CF.agg(runs),
-                "runs": runs,
-                "diagnostics": diags}
+                "runs": runs, "diagnostics": diags}
             a = rep["grid"][key]["aggregate"]
-            print(f"[{ds} m={key}] mc cov={a['covprop_mc']['coverage']['mean']:.3f} "
-                  f"wink={a['covprop_mc']['winkler']['mean']:.3f} "
-                  f"share worst-terc={a['covprop_share']['worst_tercile_cov']['mean']:.3f} "
+            print(f"[{ds} f={key}] mc cov={a['covprop_mc']['coverage']['mean']:.3f} "
+                  f"worst={a['covprop_mc']['worst_tercile_cov']['mean']:.3f} | "
+                  f"nocal cov={a['covprop_nocal']['coverage']['mean']:.3f} "
+                  f"worst={a['covprop_nocal']['worst_tercile_cov']['mean']:.3f} "
                   f"({time.time()-t0:.0f}s)", flush=True)
-        with open(f"{OUT}/poolsize_{ds}.json", "w") as f:
-            json.dump(rep, f, indent=1)
+        with open(f"{OUT}/bias_{ds}.json", "w") as fh:
+            json.dump(rep, fh, indent=1)
         print(f"== {ds} done", flush=True)
     print(f"done in {time.time()-t0:.0f}s -> {OUT}/", flush=True)
 

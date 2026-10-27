@@ -38,8 +38,8 @@ CODE = HERE
 sys.path.insert(0, CODE)
 sys.path.insert(0, os.path.join(CODE, "core"))
 
-import covprop_full as CF                      # noqa: E402
-from covprop_full import (ALPHA, H, L_HIST, build_windows, features,     # noqa
+import covprop_core as CF                      # noqa: E402
+from covprop_core import (ALPHA, H, L_HIST, build_windows, features,     # noqa
                           train_base, preds, split_q, online_q, gauss_noise,
                           make_hetero_sigma, make_ar_error, covprop_mc,
                           covprop_nested, evaluate, load_dataset)

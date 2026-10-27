@@ -1,6 +1,6 @@
 """E4: H4 backtest-selector validation-domain extension (preregistered in
-PREREG_R1FIX.md).  Reruns the frozen 63-point degradation grid of
-icde2027_v2_prep/experiments/covprop_v2.py with two additions and no other
+PREREG_FIX.md).  Reruns the frozen 63-point degradation grid of
+icde2027_v2_prep/experiments/covprop_sweep.py with two additions and no other
 protocol change:
   (E4a) an *early* backtest whose decision window is moved half a B2 segment
         earlier (doubling the temporal gap to deployment);
@@ -16,14 +16,14 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, build_windows, train_base, split_q,
                           online_q, evaluate)                    # noqa: E402
-from covprop_full import winkler as winkler_fn                   # noqa: E402
-from covprop_r1 import winkler_pw                                # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any,
+from covprop_core import winkler as winkler_fn                   # noqa: E402
+from adaptive_baselines import winkler_pw                                # noqa: E402
+from upstream import (upstream_forecast, mc_quantiles_any,
                         preds_any)                               # noqa: E402
-from covprop_r3 import (load_any_r3, share_variable, binned_lambda,
+from share import (load_any_r3, share_variable, binned_lambda,
                         cov_by_bins)                             # noqa: E402
 
 STREAMS = ["NP", "FR", "ETTh1", "weather", "ETTh2", "ETTm2", "electricity"]
@@ -34,7 +34,7 @@ SEEDS = [0, 1, 2, 3, 4]
 
 def backtest_on(Y, mid, half, sc, rho, p_obs, res_noisy, sd, ts, i0, i1, i2):
     """Backtest the 3-intervention menu: calibrate on [i0:i1], score on the
-    labeled window [i1:i2].  Identical machinery to covprop_v2.run_once_v2."""
+    labeled window [i1:i2].  Identical machinery to covprop_sweep.run_once_v2."""
     bt = {}
     q_rec = online_q(res_noisy[i0:i1],
                      np.abs(Y[i1:i2] - p_obs[i1:i2]) / sd[i1:i2],

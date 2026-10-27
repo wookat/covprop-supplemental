@@ -10,7 +10,7 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-from covprop_r3_dump import run_once_r3, load_any_r3, ALL_STREAMS  # noqa: E402
+from share_dump import run_once_r3, load_any_r3, ALL_STREAMS  # noqa: E402
 
 OUT = os.path.join(ROOT, 'results', 'ribbon')
 

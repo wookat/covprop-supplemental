@@ -74,7 +74,7 @@ smoke 已提示 H1/H3（skill 阈值口径）可能失败——若失败将如�
 
 ## 运行
 
-- 代码：`experiments/covprop_v2.py`（E1 网格）+ `experiments/policy_analysis.py`（E2 分析）。
+- 代码：`experiments/covprop_sweep.py`（E1 网格）+ `experiments/policy_analysis.py`（E2 分析）。
 - 纯 CPU；xu-1 上 `/home/dell/anaconda3/envs/tsf-research/bin/python`。
 - smoke：`--smoke`（2 流 × γ∈{0,4} × 1 seed）；正式：全网格，输出 `results_v2/`（独立目录）。
 - 复现：`bash run_v2.sh`。

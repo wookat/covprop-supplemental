@@ -36,7 +36,7 @@ Metrics: marginal coverage, conditional coverage by |eps| terciles, mean
 width, Winkler, and the width decomposition endo + propagation.
 
 Outputs: results_covprop/*.json/.csv/.png.  CPU-only.
-Usage: bash run_covprop_full.sh   (or python covprop_full.py --exp all)
+Usage: bash run_covprop_core.sh   (or python covprop_core.py --exp all)
 """
 import argparse, csv, json, os, sys, time
 import numpy as np

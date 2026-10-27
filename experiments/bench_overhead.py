@@ -1,5 +1,5 @@
 """E3: runtime/storage overhead microbenchmark (preregistered in
-PREREG_R1FIX.md).  Measures, per real upstream-error stream, the batch and
+PREREG_FIX.md).  Measures, per real upstream-error stream, the batch and
 single-window latency of the CovProp-MC pipeline vs K, against recalibration
 and CQR, plus memory/storage of the observability primitives and the
 incremental maintenance cost of the stage-2 quantile(s).  CPU only; nothing
@@ -13,14 +13,14 @@ SRC = os.path.join(ROOT, "src")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, H, build_windows, train_base, split_q,
                           online_q)                              # noqa: E402
-from covprop_r1 import fit_pinball, pred_lin                     # noqa: E402
-from covprop_full import features                                # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any,
+from adaptive_baselines import fit_pinball, pred_lin                     # noqa: E402
+from covprop_core import features                                # noqa: E402
+from upstream import (upstream_forecast, mc_quantiles_any,
                         preds_any)                               # noqa: E402
-from covprop_r3 import (load_any_r3, share_variable,
+from share import (load_any_r3, share_variable,
                         binned_lambda)                           # noqa: E402
 
 STREAMS = ["NP", "FR", "ETTh1", "weather", "ETTh2", "ETTm2", "electricity"]

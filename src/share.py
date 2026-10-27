@@ -28,14 +28,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "core"))
 
-import covprop_full as CF                                        # noqa: E402
-from covprop_full import (ALPHA, H, build_windows, train_base, split_q,
+import covprop_core as CF                                        # noqa: E402
+from covprop_core import (ALPHA, H, build_windows, train_base, split_q,
                           online_q, gauss_noise, make_hetero_sigma,
                           make_ar_error, evaluate)               # noqa: E402
 from baselines import ACI, NexCP                                 # noqa: E402
-from covprop_r1 import (load_any, run_cqr, run_norcp, run_spci,
+from adaptive_baselines import (load_any, run_cqr, run_norcp, run_spci,
                         winkler_pw)                              # noqa: E402
-from covprop_r2 import (upstream_forecast, mc_quantiles_any, preds_any,
+from upstream import (upstream_forecast, mc_quantiles_any, preds_any,
                         significance_r2)                         # noqa: E402
 
 OUT = os.path.join(HERE, "results_r3")
@@ -47,7 +47,7 @@ N_BINS = 3
 
 def load_any_r3(name):
     """Extends R1 load_any with ETTh2 / ETTm2 (same LTSF loader)."""
-    import covprop_r1 as R1
+    import adaptive_baselines as R1
     if name in ("ETTh2", "ETTm2"):
         a = R1.load_ltsf(name)
         mu = a[:int(len(a) * .6)].mean(0)
@@ -273,12 +273,6 @@ def run_once_r3(data, seed, source, mode="real", sigma_base=0.5, scale_b=0.3):
     diag["cov_by_fixededge_tercile"] = {
         m: cov_by_bins(Y_te, lo, hi, bins_Tf)
         for m, (lo, hi) in intervals.items()}
-    diag["_ribbon"] = {
-        "Y": np.asarray(Y_te), "ts": np.asarray(ts_te),
-        "pred": np.asarray(p_te_obs), "mag": np.asarray(mag_te),
-        "rho": np.asarray(rho_T), "sd": np.asarray(sd_te),
-        "mid": np.asarray(mid_T), "half": np.asarray(half_T),
-        **{f"iv_{m}": np.stack(v) for m, v in intervals.items()}}
     return out, per_win, diag
 
 
