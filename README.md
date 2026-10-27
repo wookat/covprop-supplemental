@@ -55,6 +55,9 @@ results/                   Raw artifacts, organized by claim
   ribbon/                  ribbon_<stream>.npz (Sec. VII-D; claim-relevant fields)
   logs/                    Run logs for audit
 figures/                   Figure-rendering utilities (not needed for results)
+supplementary/             supplementary.pdf — long-form tables omitted from the
+                           paper body, generated mechanically from results/
+                           (build_supplementary.py --pdf rebuilds it)
 PROVENANCE.md              Environment and seed record for the reported numbers
 ```
 

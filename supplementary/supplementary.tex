@@ -1,0 +1,136 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\title{Supplementary Tables for ``CovProp: Propagating Upstream Forecast
+Uncertainty of Future Covariates into Conformal Prediction Intervals''}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\noindent This artifact-appendix is generated mechanically from the shipped raw
+results under \texttt{results/} --- no number is transcribed by hand.
+Rebuild: \texttt{python supplementary/build\_supplementary.py --pdf}
+\section{Robustness ablations}
+\begin{table}[h]\centering\small
+\caption{Biased upstream-error-log ablation (full grid). ``$f$'' is the retained smallest-$|\eta|$ fraction of the error log; ``noCal'' is the propagation-only variant ($\lambda\equiv 1$).}
+\begin{tabular}{llcccc}
+\toprule
+stream & $f$ & MC cov & MC worst-tercile & MC width & noCal cov \\
+\midrule
+NP & 1.0 & 0.892 & 0.843 & 1.770 & 0.818 \\
+NP & 0.5 & 0.900 & 0.851 & 1.935 & 0.800 \\
+NP & 0.25 & 0.901 & 0.852 & 1.969 & 0.798 \\
+NP & 0.1 & 0.904 & 0.854 & 2.001 & 0.798 \\
+FR & 1.0 & 0.875 & 0.769 & 1.808 & 0.755 \\
+FR & 0.5 & 0.873 & 0.767 & 1.851 & 0.738 \\
+FR & 0.25 & 0.874 & 0.769 & 1.855 & 0.737 \\
+FR & 0.1 & 0.873 & 0.767 & 1.867 & 0.735 \\
+ETTh1 & 1.0 & 0.926 & 0.918 & 1.128 & 0.842 \\
+ETTh1 & 0.5 & 0.926 & 0.918 & 1.147 & 0.839 \\
+ETTh1 & 0.25 & 0.926 & 0.918 & 1.151 & 0.838 \\
+ETTh1 & 0.1 & 0.927 & 0.919 & 1.166 & 0.835 \\
+ETTh2 & 1.0 & 0.902 & 0.893 & 1.819 & 0.887 \\
+ETTh2 & 0.5 & 0.904 & 0.894 & 1.800 & 0.889 \\
+ETTh2 & 0.25 & 0.904 & 0.894 & 1.803 & 0.889 \\
+ETTh2 & 0.1 & 0.903 & 0.894 & 1.783 & 0.890 \\
+ETTm2 & 1.0 & 0.915 & 0.901 & 3.885 & 0.877 \\
+ETTm2 & 0.5 & 0.915 & 0.902 & 3.646 & 0.876 \\
+ETTm2 & 0.25 & 0.914 & 0.897 & 3.759 & 0.876 \\
+ETTm2 & 0.1 & 0.916 & 0.900 & 3.233 & 0.877 \\
+electricity & 1.0 & 0.885 & 0.869 & 2.634 & 0.918 \\
+electricity & 0.5 & 0.887 & 0.866 & 2.773 & 0.897 \\
+electricity & 0.25 & 0.889 & 0.863 & 2.815 & 0.893 \\
+electricity & 0.1 & 0.891 & 0.864 & 2.855 & 0.890 \\
+weather & 1.0 & 0.800 & 0.774 & 0.294 & 0.609 \\
+weather & 0.5 & 0.803 & 0.775 & 0.335 & 0.530 \\
+weather & 0.25 & 0.807 & 0.781 & 0.342 & 0.513 \\
+weather & 0.1 & 0.812 & 0.786 & 0.362 & 0.495 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Error-pool-size sensitivity, full grid: marginal coverage of CovProp-MC as the upstream-error pool is subsampled to $m$; the last column is CovProp-Share at the full pool.}
+\begin{tabular}{lcccccccc}
+\toprule
+stream & $m{=}5$ & 10 & 25 & 50 & 100 & 200 & full & Share(full) \\
+\midrule
+NP & 0.898 & 0.897 & 0.895 & 0.893 & 0.893 & 0.893 & 0.892 & 0.881 \\
+FR & 0.870 & 0.874 & 0.875 & 0.875 & 0.876 & 0.875 & 0.875 & 0.876 \\
+ETTh1 & 0.926 & 0.926 & 0.927 & 0.926 & 0.927 & 0.926 & 0.926 & 0.928 \\
+ETTh2 & 0.904 & 0.904 & 0.904 & 0.902 & 0.903 & 0.904 & 0.902 & 0.905 \\
+ETTm2 & 0.915 & 0.915 & 0.914 & 0.915 & 0.914 & 0.915 & 0.915 & 0.917 \\
+electricity & 0.888 & 0.886 & 0.883 & 0.883 & 0.883 & 0.885 & 0.885 & 0.880 \\
+weather & 0.810 & 0.805 & 0.802 & 0.801 & 0.801 & 0.801 & 0.800 & 0.809 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Per-instance and applicability-domain diagnostics}
+\begin{table}[h]\centering\small
+\caption{Per-instance propagated-width diagnostics, seed 0 ($n{=}1500$ windows per stream).  $\rho_s(\mathrm{half},|\eta|)$ is the weak correlation reported in the paper; $\rho_s(\mathrm{half},\rho_t)$ shows the width does track the label-free share statistic.}
+\begin{tabular}{lcccc}
+\toprule
+stream & $\rho_s(\mathrm{half},|\eta|)$ & $\rho_s(\mathrm{half},\rho_t)$ & $\bar\rho_t$ & std(half) \\
+\midrule
+NP & -0.117 & -0.285 & -0.126 & 0.545 \\
+FR & -0.187 & -0.177 & -0.061 & 0.854 \\
+ETTh1 & 0.110 & 0.150 & -0.364 & 0.171 \\
+ETTh2 & 0.137 & 0.332 & -0.029 & 0.405 \\
+ETTm2 & -0.065 & 0.225 & -0.109 & 10.264 \\
+electricity & -0.109 & -0.340 & 0.160 & 0.530 \\
+weather & -0.281 & -0.746 & -0.234 & 0.036 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Applicability-domain statistics per stream (\texttt{ad\_analysis.json}).  Skill is upstream forecast skill vs.\ persistence; share is the width-based propagation share; gain is the Winkler improvement of CovProp-Share over recalibration; spread is the residual coverage spread across share bins.}
+\begin{tabular}{lccccc}
+\toprule
+stream & skill & rel-err & share & gain & bin-spread \\
+\midrule
+NP & 0.622 & 0.340 & 0.122 & 0.024 & 0.007 \\
+FR & 0.465 & 0.230 & 0.267 & -0.005 & 0.008 \\
+ETTh1 & 0.648 & 0.451 & 0.098 & -0.033 & 0.006 \\
+weather & 0.680 & 0.489 & 0.153 & 0.172 & 0.117 \\
+ETTh2 & 0.993 & 0.225 & 0.102 & -0.111 & 0.006 \\
+ETTm2 & 1.031 & 0.176 & 0.558 & -1.135 & 0.014 \\
+electricity & 0.497 & 0.317 & 0.017 & 0.069 & 0.021 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Negative result and deployment metrics}
+\begin{table}[h]\centering\small
+\caption{Winkler score per stream for the two preregistered hybrid designs vs.\ the lean roster (lower is better).  The pick beats CQR on only 2/7 streams against the preregistered $\ge 5/7$ criterion; adopted as a negative result.}
+\begin{tabular}{lcccccc}
+\toprule
+stream & recal & cqr & C-mc & C-share & H-mc\_cqr & H-cqr\_covwidth \\
+\midrule
+NP & 2.722 & 2.592 & 2.675 & 2.655 & 2.818 & 2.606 \\
+FR & 2.515 & 2.535 & 2.519 & 2.526 & 2.940 & 2.538 \\
+ETTh1 & 1.337 & 1.018 & 1.371 & 1.381 & 0.989 & 1.018 \\
+ETTh2 & 2.000 & 1.353 & 2.226 & 2.221 & 1.376 & 1.354 \\
+ETTm2 & 1.969 & 0.874 & 4.052 & 4.203 & 0.897 & 1.036 \\
+electricity & 3.457 & 2.712 & 3.310 & 3.220 & 2.755 & 2.702 \\
+weather & 0.543 & 0.212 & 0.459 & 0.450 & 0.211 & 0.213 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Per-window latency (ms) on 1500 test windows, seed 0. $\times$recal is the $K{=}8$ latency relative to plain recalibration.}
+\begin{tabular}{lccccc}
+\toprule
+stream & recal & MC $K{=}8$ & $K{=}16$ & $K{=}32$ & $\times$recal \\
+\midrule
+NP & 0.016 & 0.044 & 0.068 & 0.126 & 0.244 & 2.7$\times$ \\
+FR & 0.017 & 0.042 & 0.068 & 0.131 & 0.235 & 2.4$\times$ \\
+ETTh1 & 0.018 & 0.044 & 0.076 & 0.135 & 0.262 & 2.5$\times$ \\
+ETTh2 & 0.016 & 0.045 & 0.070 & 0.133 & 0.245 & 2.8$\times$ \\
+ETTm2 & 0.016 & 0.046 & 0.072 & 0.130 & 0.251 & 2.9$\times$ \\
+electricity & 0.016 & 0.045 & 0.074 & 0.130 & 0.243 & 2.8$\times$ \\
+weather & 0.018 & 0.043 & 0.070 & 0.125 & 0.250 & 2.4$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+\paragraph{Backtest selector (paper \S VII-E, Table VIII).} Across the 63 preregistered operating points the label-free backtest selector attains mean Winkler 2.157 vs.\ oracle 2.151 (mean regret 0.24\%, median 0.00\%, max 2.63\%; choose-rate agreement 74.6\%).  Wilcoxon vs.\ always-recalibrate: +6.6\% ($p=2.48e-07$); vs.\ always-share: +13.1\% ($p=8.88e-04$).  Cross-check vs.\ the frozen 3-seed run: max relative deviation of seed-averaged backtest means 3.1\%.
+\end{document}
